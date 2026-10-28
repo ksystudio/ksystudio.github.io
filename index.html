@@ -113,18 +113,36 @@
     font-size: clamp(80px, 14vw, 200px); font-weight: 800; letter-spacing: -0.06em; color: #2e2e2e;
   }
 
-  .services { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
-  .svc {
-    background: var(--panel-2); border-radius: 14px; padding: 22px;
-    display: flex; flex-direction: column; justify-content: space-between; min-height: 200px;
-    transition: background .25s, color .25s;
+  .svc-wrap { display: grid; grid-template-columns: 1fr minmax(0, 440px); gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .deck-ctrl { display: flex; align-items: center; gap: 14px; margin-top: 36px; }
+  .deck-ctrl button {
+    width: 48px; height: 48px; border-radius: 50%; border: 1px solid #444; background: transparent;
+    color: var(--text); font-size: 18px; cursor: pointer; transition: background .2s, color .2s;
   }
-  .svc:hover { background: var(--pill); color: var(--pill-text); }
-  .svc:hover p { color: #333; }
-  .svc .num { font-size: 13px; opacity: .6; }
-  .svc h3 { font-size: 26px; letter-spacing: -0.03em; font-weight: 700; margin: 30px 0 8px; }
-  .svc p { color: var(--muted); font-size: 14px; line-height: 1.45; }
-  .svc .price { margin-top: 14px; font-weight: 600; font-size: 14px; }
+  .deck-ctrl button:hover { background: var(--pill); color: var(--pill-text); }
+  .deck-count { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .deck-count b { color: var(--text); font-weight: 600; }
+  .deck-hint { font-size: 12px; color: var(--muted); margin-top: 14px; letter-spacing: .08em; text-transform: uppercase; }
+  .deck { position: relative; width: 100%; aspect-ratio: 4 / 5; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .svc {
+    position: absolute; inset: 0; border-radius: 20px; padding: clamp(22px, 3vw, 32px);
+    display: flex; flex-direction: column; justify-content: space-between;
+    background: var(--panel-2); color: var(--text);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.6);
+    transition: transform .55s cubic-bezier(.2,.8,.2,1), opacity .4s;
+    cursor: grab; will-change: transform;
+  }
+  .svc.dragging { transition: none; cursor: grabbing; }
+  .svc:nth-child(3n+1) { background: #e6e6e6; color: #111; }
+  .svc:nth-child(3n+1) p { color: #444; }
+  .svc:nth-child(3n+2) { background: #2b2b2b; }
+  .svc:nth-child(3n) { background: #3d3d3d; }
+  .svc .top { display: flex; justify-content: space-between; font-size: 13px; opacity: .65; }
+  .svc h3 { font-size: clamp(44px, 6vw, 72px); letter-spacing: -0.05em; font-weight: 800; line-height: .9; margin-bottom: 14px; }
+  .svc p { color: var(--muted); font-size: 15px; line-height: 1.45; }
+  .svc ul { list-style: none; margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .svc li { font-size: 12px; padding: 5px 10px; border-radius: 999px; border: 1px solid currentColor; opacity: .7; }
+  .svc .price { margin-top: 18px; font-weight: 700; font-size: 18px; }
 
   .exp-list { margin-top: 40px; border-top: 1px solid #333; }
   .exp {
@@ -238,6 +256,10 @@
     .exp { grid-template-columns: 1fr; gap: 6px; }
     .exp .kind { justify-self: start; }
     .steps { grid-template-columns: 1fr; }
+    .svc-wrap { grid-template-columns: 1fr; }
+    .deck { max-width: 340px; margin: 36px auto 10px; }
+    .deck-ctrl { justify-content: center; }
+    .deck-hint { text-align: center; }
     .slide { min-height: auto; }
     .hero { min-height: 82vh; padding: 20px 14px; }
     .hero .big { font-size: 35vw; margin-left: -.04em; }
@@ -305,14 +327,24 @@
   </section>
 
   <section class="slide" id="skills">
-    <p class="tag">Personal Skills / Services</p>
-    <h2 class="title" style="margin-top:14px">What I<br>can do</h2>
-    <div class="services">
-      <div class="svc"><span class="num">01</span><div><h3>Prototype</h3><p>Clickable app &amp; web prototypes in Figma, ready to present.</p><p class="price">from RM__</p></div></div>
-      <div class="svc"><span class="num">02</span><div><h3>Video</h3><p>Assignment videos, club promos, montages &amp; reels.</p><p class="price">from RM__</p></div></div>
-      <div class="svc"><span class="num">03</span><div><h3>UI Design</h3><p>Modern, consistent screens for apps &amp; websites.</p><p class="price">from RM__</p></div></div>
-      <div class="svc"><span class="num">04</span><div><h3>Logo</h3><p>Logos for clubs, events, small businesses &amp; startups.</p><p class="price">from RM__</p></div></div>
-      <div class="svc"><span class="num">05</span><div><h3>Poster</h3><p>Event posters, infographics, banners &amp; buntings.</p><p class="price">from RM__</p></div></div>
+    <div class="svc-wrap">
+      <div>
+        <p class="tag">Personal Skills / Services</p>
+        <h2 class="title" style="margin-top:14px">What I<br>can do</h2>
+        <div class="deck-ctrl">
+          <button id="deckPrev" aria-label="Previous">←</button>
+          <span class="deck-count"><b id="deckNow">01</b> / <span id="deckAll">05</span></span>
+          <button id="deckNext" aria-label="Next">→</button>
+        </div>
+        <p class="deck-hint">Swipe the cards</p>
+      </div>
+      <div class="deck" id="deck">
+        <article class="svc"><div class="top"><span>01</span><span>ksy.studio</span></div><div><h3>Prototype</h3><p>Clickable app &amp; web prototypes in Figma, ready to present.</p><ul><li>Figma</li><li>User flow</li><li>Clickable</li></ul><p class="price">from RM80</p></div></article>
+        <article class="svc"><div class="top"><span>02</span><span>ksy.studio</span></div><div><h3>Video</h3><p>Assignment videos, club promos, montages &amp; reels.</p><ul><li>Editing</li><li>Reels</li><li>Subtitles</li></ul><p class="price">from RM80</p></div></article>
+        <article class="svc"><div class="top"><span>03</span><span>ksy.studio</span></div><div><h3>UI Design</h3><p>Modern, consistent screens for apps &amp; websites.</p><ul><li>Mobile</li><li>Web</li><li>Design system</li></ul><p class="price">from RM80</p></div></article>
+        <article class="svc"><div class="top"><span>04</span><span>ksy.studio</span></div><div><h3>Logo</h3><p>Logos for clubs, events, small businesses &amp; startups.</p><ul><li>Logo</li><li>Variations</li><li>Brand colors</li></ul><p class="price">from RM80</p></div></article>
+        <article class="svc"><div class="top"><span>05</span><span>ksy.studio</span></div><div><h3>Poster</h3><p>Event posters, infographics, banners &amp; buntings.</p><ul><li>Poster</li><li>Infographic</li><li>IG post</li></ul><p class="price">from RM80</p></div></article>
+      </div>
     </div>
   </section>
 
@@ -427,6 +459,81 @@ function openLB(w) {
 }
 lb.onclick = e => { if (e.target === lb || e.target.classList.contains("close")) { lb.classList.remove("open"); document.getElementById("lbBody").innerHTML = ""; } };
 
+(() => {
+  const deck = document.getElementById("deck");
+  const order = [...deck.children];
+  const total = order.length;
+  const pad = n => String(n).padStart(2, "0");
+  let shown = 0;
+  document.getElementById("deckAll").textContent = pad(total);
+
+  function layout() {
+    order.forEach((c, i) => {
+      const d = Math.min(i, 3);
+      c.style.zIndex = total - i;
+      c.style.opacity = i > 3 ? 0 : 1;
+      c.style.transform = `translate3d(0, ${d * -16}px, 0) scale(${1 - d * .05}) rotate(${i ? (i % 2 ? -1 : 1) * d : 0}deg)`;
+      c.style.pointerEvents = i ? "none" : "auto";
+    });
+    document.getElementById("deckNow").textContent = pad(shown + 1);
+  }
+
+  function fly(dir) {
+    const top = order[0];
+    top.classList.remove("dragging");
+    top.style.transform = `translate3d(${dir * 130}%, -20px, 0) rotate(${dir * 18}deg)`;
+    top.style.opacity = 0;
+    setTimeout(() => {
+      order.push(order.shift());
+      shown = (shown + 1) % total;
+      top.style.transition = "none";
+      layout();
+      void top.offsetHeight;
+      top.style.transition = "";
+    }, 380);
+  }
+
+  function back() {
+    const last = order.pop();
+    order.unshift(last);
+    shown = (shown - 1 + total) % total;
+    last.style.transition = "none";
+    last.style.transform = "translate3d(-130%, -20px, 0) rotate(-18deg)";
+    last.style.opacity = 0;
+    void last.offsetHeight;
+    last.style.transition = "";
+    layout();
+  }
+
+  let sx = 0, sy = 0, dx = 0, drag = false, lock = null;
+  deck.addEventListener("pointerdown", e => {
+    if (!order[0].contains(e.target)) return;
+    drag = true; lock = null; sx = e.clientX; sy = e.clientY; dx = 0;
+    order[0].classList.add("dragging");
+    order[0].setPointerCapture(e.pointerId);
+  });
+  deck.addEventListener("pointermove", e => {
+    if (!drag) return;
+    dx = e.clientX - sx;
+    const dy = e.clientY - sy;
+    if (lock === null && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) lock = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+    if (lock !== "x") return;
+    order[0].style.transform = `translate3d(${dx}px, ${Math.abs(dx) * -.05}px, 0) rotate(${dx / 18}deg)`;
+  });
+  const release = () => {
+    if (!drag) return;
+    drag = false;
+    if (lock === "x" && Math.abs(dx) > 90) fly(Math.sign(dx));
+    else { order[0].classList.remove("dragging"); layout(); }
+  };
+  deck.addEventListener("pointerup", release);
+  deck.addEventListener("pointercancel", release);
+
+  document.getElementById("deckNext").onclick = () => fly(1);
+  document.getElementById("deckPrev").onclick = back;
+  layout();
+})();
+
 const d = new Date();
 document.getElementById("today").textContent = d.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
 document.getElementById("year").textContent = d.getFullYear();
@@ -488,8 +595,8 @@ if (!reduce && window.gsap) {
     gsap.from(el, { y: 30, opacity: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 88%" } });
   });
 
-  gsap.from(".svc", { y: 80, opacity: 0, duration: 1, stagger: .08, ease: "power3.out",
-    scrollTrigger: { trigger: ".services", start: "top 80%" } });
+  gsap.from(".deck", { y: 100, rotate: 6, opacity: 0, duration: 1.2, ease: "power3.out",
+    scrollTrigger: { trigger: ".deck", start: "top 85%" } });
 
   gsap.utils.toArray(".exp").forEach(row => {
     gsap.fromTo(row, { "--line": 0 }, { "--line": 1, duration: 1.2, ease: "power3.inOut", scrollTrigger: { trigger: row, start: "top 90%" } });
