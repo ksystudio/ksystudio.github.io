@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lowkey Studio</title>
+<title>ksy Studio</title>
 <meta name="description" content="Prototype, video, UI design, logo & poster design for university students.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0b0b0b;
@@ -26,6 +26,9 @@
     color: var(--text);
     font-family: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
+  }
+  .big, .title, .svc h3, .stats b, .texture .mono, .marquee span, .nav .brand, .exp h4 {
+    font-family: "Bricolage Grotesque", "Inter Tight", sans-serif;
   }
   img { display: block; max-width: 100%; }
   a { color: inherit; text-decoration: none; }
@@ -58,11 +61,11 @@
     scroll-margin-top: 70px;
   }
   .big {
-    font-weight: 700; letter-spacing: -0.055em; line-height: .85;
+    font-weight: 800; letter-spacing: -0.06em; line-height: .84;
     font-size: clamp(64px, 17vw, 280px);
   }
   .title {
-    font-weight: 700; letter-spacing: -0.05em; line-height: .88;
+    font-weight: 800; letter-spacing: -0.05em; line-height: .88;
     font-size: clamp(52px, 9vw, 140px);
   }
   .lead { max-width: 560px; font-size: clamp(14px, 1.2vw, 17px); line-height: 1.55; color: #cfcfcf; }
@@ -76,7 +79,7 @@
       #141414;
   }
   .hero .bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; }
-  .hero .big { position: relative; font-size: min(26vw, 420px); color: #e9e9e9; mix-blend-mode: normal; }
+  .hero .big { position: relative; font-size: min(30vw, 400px); color: #e9e9e9; mix-blend-mode: normal; }
   .hero .big span { display: block; }
   .hero .big .line:last-child > span {
     background: linear-gradient(#e9e9e9 30%, rgba(233,233,233,.15));
@@ -205,7 +208,7 @@
   }
   .marquee-track { display: inline-flex; will-change: transform; }
   .marquee span {
-    font-size: clamp(36px, 7vw, 110px); font-weight: 700; letter-spacing: -0.05em;
+    font-size: clamp(36px, 7vw, 110px); font-weight: 800; letter-spacing: -0.05em;
     padding-right: .5em; color: transparent; -webkit-text-stroke: 1px #555;
   }
   .marquee span:nth-child(odd) { color: var(--text); -webkit-text-stroke: 0; }
@@ -237,7 +240,7 @@
     .steps { grid-template-columns: 1fr; }
     .slide { min-height: auto; }
     .hero { min-height: 82vh; padding: 20px 14px; }
-    .hero .big { font-size: 28vw; margin-left: -.04em; }
+    .hero .big { font-size: 35vw; margin-left: -.04em; }
     .hero-meta { padding: 0 6px; }
     .hero-meta .links { width: 100%; }
     .hero-meta .btn { flex: 1; justify-content: center; }
@@ -249,7 +252,7 @@
 <div class="cursor" id="cursor"></div>
 
 <nav class="nav">
-  <a href="#home" class="brand" id="brandName">LOWKEY.STUDIO</a>
+  <a href="#home" class="brand" id="brandName">ksy.studio</a>
   <ul id="menu">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Services</a></li>
@@ -265,7 +268,7 @@
 
   <section class="slide hero" id="home">
     <img class="bg-img" src="images/hero.jpg" alt="" onerror="this.remove()">
-    <h1 class="big" id="heroTitle"><span class="line"><span>Lowkey</span></span><span class="line"><span>Studio</span></span></h1>
+    <h1 class="big" id="heroTitle"><span class="line"><span>ksy</span></span><span class="line"><span>Studio</span></span></h1>
     <div class="hero-meta">
       <p>Prototypes, videos, UI design, logos &amp; posters for your assignments, FYP, clubs and uni projects. Clean work, student-friendly prices.</p>
       <div class="links">
@@ -296,7 +299,7 @@
         </div>
       </div>
       <div class="texture">
-        <span class="mono">LK.</span>
+        <span class="mono">ksy.</span>
       </div>
     </div>
   </section>
@@ -354,7 +357,7 @@
 
 </main>
 
-<footer>© <span id="year"></span> LOWKEY.STUDIO — All works shown with permission.</footer>
+<footer>© <span id="year"></span> ksy.studio — All works shown with permission.</footer>
 
 <div class="lightbox" id="lightbox">
   <button class="close" aria-label="Tutup">×</button>
